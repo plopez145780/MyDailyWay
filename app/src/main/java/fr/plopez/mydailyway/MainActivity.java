@@ -14,8 +14,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+
 import android.view.View;
-import android.widget.TextView;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        //Creer un objet Trajet vide;
+        ArrayList<Tuile> mesTuile = new ArrayList<>();
+        Trajet trajet = new Trajet(1,"mon1erTrajet", mesTuile);
+
+
+
+
 
 
         // Vérifier la disponibilité de la connexion internet
@@ -92,28 +102,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            TextView hello = (TextView) findViewById(R.id.hello);
-            hello.setText(result);
+            TextView temperature = (TextView)findViewById(R.id.temperature);
+            TextView etat = (TextView)findViewById(R.id.etat);
+            TextView vitesseVent = (TextView)findViewById(R.id.vitesseVent);
+            //hello.setText(result);
         }
 
     }
 
-
-
-
-    TextView temperature = (TextView)findViewById(R.id.temperature);
-    TextView etat = (TextView)findViewById(R.id.etat);
-    TextView vitesseVent = (TextView)findViewById(R.id.vitesseVent);
-
-    public void afficheTemperature(View view) {
-        temperature.setText("Temperature");
-    }
-
-    public void afficheEtat(View view) {
-        etat.setText("Etat");
-    }
-
-    public void afficheVitesse(View view) {
-        vitesseVent.setText("Vitesse");
-    }
 }

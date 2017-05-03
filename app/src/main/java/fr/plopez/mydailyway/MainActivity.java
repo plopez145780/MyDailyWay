@@ -5,6 +5,7 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,8 +16,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-
-import android.view.View;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Creer un objet Trajet vide;
         ArrayList<Tuile> mesTuile = new ArrayList<>();
+
+        Tuile meteoNantes = new Meteo(1, 20,2, "Clear");
+        Log.d("meteo", meteoNantes.toString());
+        mesTuile.add(meteoNantes);
+
         Trajet trajet = new Trajet(1,"mon1erTrajet", mesTuile);
 
 

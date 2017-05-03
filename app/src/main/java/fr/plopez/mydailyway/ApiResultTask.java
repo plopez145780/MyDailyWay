@@ -1,8 +1,10 @@
 package fr.plopez.mydailyway;
 
 import android.os.AsyncTask;
-import android.widget.TextView;
-
+import android.util.Log;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,31 +13,63 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Created by pierr on 02/05/2017.
+ * Description : Gestion des requetes vers les API de façon asynchrone
+ * Version : 1.0
+ * Fait par : Pierre Lopez
+ * Fait le : 02/05/2017
  */
 
-public class ApiResultTask extends AsyncTask<String, Void, String>{
+public class ApiResultTask extends AsyncTask<String, Void, Meteo>{
 
+    public AsyncResponse delegate = null;
+
+    //
     @Override
-    protected String doInBackground(String... params) {
-        String resultat = null;
-        HttpURLConnection connexion = null;
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
+    //
+    @Override
+    protected Meteo doInBackground(String... params) {
+        Meteo tuileMeteo = new Meteo();
+        //
+        HttpURLConnection connexion;
         try {
+            //
             URL url = new URL(params[0]);
+            //Ouverture de la connexion
             connexion = (HttpURLConnection)url.openConnection();
-
-
             //reception de la réponse et traitement
             InputStream is = connexion.getInputStream();
             InputStreamReader reader = new InputStreamReader(is);
-            // transformer le flux binaire en caractères
+            //transformer le flux binaire en caractères
             int inChar;
             final StringBuilder readStr = new StringBuilder();
             while( (inChar = reader.read()) != -1 ) {
                 readStr.append((char) inChar);
             }
-            resultat = readStr.toString();
+            String resultat = readStr.toString();
+            //Ferme la connexion
             connexion.disconnect();
+
+            //Parse le String en JSON
+            JSONObject resultatJson = new JSONObject(resultat);
+            //Récupère le code icon du temp
+            JSONArray weatherArray = resultatJson.getJSONArray("weather");
+            JSONObject  weatherObj = weatherArray.getJSONObject(0);
+            String  weatherIcon = weatherObj.getString("icon");
+            //Texte de la température
+            JSONObject  mainObj = resultatJson.getJSONObject("main");
+            String  mainTemp = mainObj.getString("temp");
+            float mainTempInt = Float.parseFloat(mainTemp);
+            //Texte de la vitesse du vent
+            JSONObject  windObj = resultatJson.getJSONObject("wind");
+            String  windSpeed = windObj.getString("speed");
+            float windSpeedInt = Float.parseFloat(windSpeed);
+
+            tuileMeteo = new Meteo(2, (int)mainTempInt, (int)windSpeedInt, weatherIcon);
+
 
 
 
@@ -43,15 +77,21 @@ public class ApiResultTask extends AsyncTask<String, Void, String>{
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } finally {
+
         }
 
 
-        return resultat;
+        return tuileMeteo;
     }
 
-    @Override
-    protected void onPostExecute(String result) {
 
+    //
+    @Override
+    protected void onPostExecute(Meteo result) {
+        delegate.processFinish(result);
     }
 
 }

@@ -9,4 +9,5 @@ package fr.plopez.mydailyway;
 
 public interface AsyncResponse {
     void processFinish(Meteo output);
+    void processFinishBicloo(StationVelo output);
 }

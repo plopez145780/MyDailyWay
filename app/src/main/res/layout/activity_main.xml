@@ -31,4 +31,31 @@
         android:text="Vent"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/station"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="station"
+        android:layout_alignBaseline="@+id/placeLibre"
+        android:layout_alignBottom="@+id/placeLibre"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/placeLibre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="place"
+        android:layout_below="@+id/etat"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="28dp" />
+
+    <TextView
+        android:id="@+id/veloDispo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="velo"
+        android:layout_alignBaseline="@+id/station"
+        android:layout_alignBottom="@+id/station"
+        android:layout_alignStart="@+id/vitesseVent" />
 </RelativeLayout>

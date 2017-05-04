@@ -18,7 +18,6 @@ public class Meteo extends Tuile {
     public Meteo() {
     }
     public Meteo(int id, int temperatureRessentie, int vitesseVent, String etat) {
-        super(id);
         this.temperatureRessentie = temperatureRessentie;
         this.vitesseVent = vitesseVent;
         this.etat = etat;

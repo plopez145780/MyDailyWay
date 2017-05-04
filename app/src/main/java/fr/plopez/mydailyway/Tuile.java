@@ -8,6 +8,7 @@ package fr.plopez.mydailyway;
  */
 
 public abstract class Tuile {
+    /*
     //ATTRIBUTS
     protected int id;
 
@@ -25,4 +26,5 @@ public abstract class Tuile {
     public void setId(int id) {
         this.id = id;
     }
+    */
 }

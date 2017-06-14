@@ -1,4 +1,4 @@
-package fr.plopez.mydailyway;
+package com.oc.rss.mydailyway;
 
 /**
  * Description :

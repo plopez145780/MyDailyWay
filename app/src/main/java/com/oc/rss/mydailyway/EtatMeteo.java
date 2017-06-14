@@ -1,4 +1,4 @@
-package fr.plopez.mydailyway;
+package com.oc.rss.mydailyway;
 
 /**
  * Created by pierr on 02/05/2017.

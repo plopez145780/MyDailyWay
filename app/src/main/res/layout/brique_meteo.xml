@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp" >
+
+    <ImageView
+        android:id="@+id/temps"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"/>
+
+    <TextView
+        android:id="@+id/temperature"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/temps"
+        android:textStyle="bold"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:text="Temperature" />
+
+    <ImageView
+        android:id="@+id/vent"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toRightOf="@+id/temperature"
+        android:layout_alignTop="@+id/temperature"/>
+
+    <TextView android:id="@+id/vitesse"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/vent"
+        android:layout_alignTop="@+id/vent"
+        android:textStyle="bold"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:text="Vitesse" />
+
+</RelativeLayout>

@@ -1,4 +1,4 @@
-package fr.plopez.mydailyway;
+package com.oc.rss.mydailyway;
 
 /**
  * Description :
@@ -11,13 +11,13 @@ public class Meteo extends Tuile {
     //ATTRIBUTS
     private static String ville = "nantes";
     private int temperatureRessentie;
-    private int vitesseVent;
+    private float vitesseVent;
     private String etat;
 
     //CONSTRUCTEURS
     public Meteo() {
     }
-    public Meteo(int id, int temperatureRessentie, int vitesseVent, String etat) {
+    public Meteo(int id, int temperatureRessentie, float vitesseVent, String etat) {
         this.temperatureRessentie = temperatureRessentie;
         this.vitesseVent = vitesseVent;
         this.etat = etat;
@@ -26,14 +26,15 @@ public class Meteo extends Tuile {
     //ACCESSEURS
     //temperatureRessentie
     public int getTemperatureRessentie() {
-        return temperatureRessentie;
+        return temperatureRessentie  - 273;
     }
     public void setTemperatureRessentie(int temperatureRessentie) {
         this.temperatureRessentie = temperatureRessentie;
     }
     //vitesseVent
     public int getVitesseVent() {
-        return vitesseVent;
+
+        return (int)(vitesseVent*3.6f);
     }
     public void setVitesseVent(int vitesseVent) {
         this.vitesseVent = vitesseVent;

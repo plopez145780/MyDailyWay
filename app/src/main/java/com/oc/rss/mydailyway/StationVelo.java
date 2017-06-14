@@ -1,4 +1,6 @@
-package fr.plopez.mydailyway;
+package com.oc.rss.mydailyway;
+
+import android.util.Log;
 
 /**
  * Description :
@@ -23,6 +25,7 @@ public class StationVelo extends Tuile {
     }
 
     public String getNom() {
+        nom = nom.substring(nom.indexOf("-")+1);
         return nom;
     }
 

@@ -1,6 +1,7 @@
-package fr.plopez.mydailyway;
+package com.oc.rss.mydailyway;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,10 +18,10 @@ import java.net.URL;
  * Description : Gestion des requetes vers les API de façon asynchrone
  * Version : 1.0
  * Fait par : Pierre Lopez
- * Fait le : 03/05/2017
+ * Fait le : 02/05/2017
  */
 
-public class BiclooApiTask extends AsyncTask<String, Void, StationVelo>{
+public class ApiResultTask extends AsyncTask<String, Void, Meteo>{
 
     public AsyncResponse delegate = null;
 
@@ -32,8 +33,8 @@ public class BiclooApiTask extends AsyncTask<String, Void, StationVelo>{
 
     //
     @Override
-    protected StationVelo doInBackground(String... params) {
-        StationVelo tuileVelo = new StationVelo();
+    protected Meteo doInBackground(String... params) {
+        Meteo tuileMeteo = new Meteo();
         //
         HttpURLConnection connexion;
         try {
@@ -54,16 +55,26 @@ public class BiclooApiTask extends AsyncTask<String, Void, StationVelo>{
             //Ferme la connexion
             connexion.disconnect();
 
+            Log.d("TRUC", "truc");
+
             //Parse le String en JSON
             JSONObject resultatJson = new JSONObject(resultat);
+            //Récupère le code icon du temp
+            JSONArray weatherArray = resultatJson.getJSONArray("weather");
+            JSONObject  weatherObj = weatherArray.getJSONObject(0);
+            String  weatherIcon = weatherObj.getString("icon");
+            Log.d("WEATHER", weatherIcon);
 
-            String  nameStation = resultatJson.getString("name");
-            String  availableBikeStandsStation = resultatJson.getString("available_bike_stands");
-            int availableBikeStandsStationInt = Integer.parseInt(availableBikeStandsStation);
-            String  availableBikesStation = resultatJson.getString("available_bikes");
-            int availableBikesStationInt = Integer.parseInt(availableBikesStation);
+            //Texte de la température
+            JSONObject  mainObj = resultatJson.getJSONObject("main");
+            String  mainTemp = mainObj.getString("temp");
+            float mainTempInt = Float.parseFloat(mainTemp);
+            //Texte de la vitesse du vent
+            JSONObject  windObj = resultatJson.getJSONObject("wind");
+            String  windSpeed = windObj.getString("speed");
+            float windSpeedInt = Float.parseFloat(windSpeed);
 
-            tuileVelo = new StationVelo(nameStation, availableBikeStandsStationInt, availableBikesStationInt);
+            tuileMeteo = new Meteo(2, (int)mainTempInt, windSpeedInt, weatherIcon);
 
 
 
@@ -79,14 +90,14 @@ public class BiclooApiTask extends AsyncTask<String, Void, StationVelo>{
         }
 
 
-        return tuileVelo;
+        return tuileMeteo;
     }
 
 
     //
     @Override
-    protected void onPostExecute(StationVelo result) {
-        delegate.processFinishBicloo(result);
+    protected void onPostExecute(Meteo result) {
+        delegate.processFinish(result);
     }
 
 }

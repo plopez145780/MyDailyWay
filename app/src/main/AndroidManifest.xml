@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fr.plopez.mydailyway">
+    package="com.oc.rss.mydailyway">
 
     <!-- Allows applications to open network sockets -->
     <uses-permission android:name="android.permission.INTERNET" />

@@ -1,4 +1,4 @@
-package fr.plopez.mydailyway;
+package com.oc.rss.mydailyway;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("fr.plopez.mydailyway", appContext.getPackageName());
+        assertEquals("com.oc.rss.mydailyway", appContext.getPackageName());
     }
 }

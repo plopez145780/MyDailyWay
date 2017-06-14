@@ -24,8 +24,10 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 // Début d'ajout
     ApiResultTask asyncTask = new ApiResultTask();
     BiclooApiTask asyncStationBiclooTask = new BiclooApiTask();
+    TanApiTask asyncStationTanTask = new TanApiTask();
     Meteo outputMeteo = new Meteo(1,1,1,"etat");
     StationVelo outputVelo = new StationVelo("etat", 1, 1);
+    StationTan outputTan = new StationTan();
 // Fin d'ajout
 
     private ListView mListView;
@@ -73,6 +75,11 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             String requeteStationBicloo = "https://api.jcdecaux.com/vls/v1/stations/"+station_number+"?contract=Nantes&apiKey=5b45ad73afd612e6553401c6ac3d33f276da8dfa";
             asyncStationBiclooTask.execute(requeteStationBicloo);
 
+            asyncStationTanTask.delegate = this;
+            String code_station = "COMM";
+            String ligne = "2";
+            String requeteStationTan = "http://open.tan.fr/ewp/tempsattente.json/"+code_station;
+            asyncStationTanTask.execute(requeteStationBicloo, ligne);
         }
         else {
             //La connexion n'est pas disponible...
@@ -98,6 +105,14 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
         BriqueAdapter adapter = new BriqueAdapter(MainActivity.this, briques);
         mListView.setAdapter(adapter);
     }
+
+    @Override
+    public void processFinishTan(StationTan output) {
+        outputTan = output;
+        List<Brique> briques = genererBriques();
+        BriqueAdapter adapter = new BriqueAdapter(MainActivity.this, briques);
+        mListView.setAdapter(adapter);
+    }
 // Fin d'insertion
 
     private List<BriqueMeteo> genererBriquesMeteo(){
@@ -111,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
 
         List<Brique> briques = new ArrayList<Brique>();
         //briques.add(new Brique(BriqueAdapter.tab_image[2], outputMeteo.getTemperatureRessentie()+"", outputMeteo.getVitesseVent()+""));
-        briques.add(new Brique(BriqueAdapter.tab_image[0], "La Tan", " ", "Pas de retard"));
+        briques.add(new Brique(BriqueAdapter.tab_image[0], outputTan.getNom(), outputTan.getLigne(), outputTan.getTempsAttente()));
         briques.add(new Brique(BriqueAdapter.tab_image[2], outputVelo.getVeloDisponible()+" vélos", " ", outputVelo.getNom()));
         briques.add(new Brique(BriqueAdapter.tab_image[1], outputVelo.getPlaceRestante()+" places", " ", outputVelo.getNom()));
         return briques;

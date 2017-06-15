@@ -78,8 +78,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             asyncStationTanTask.delegate = this;
             String code_station = "COMM";
             String ligne = "2";
-            String requeteStationTan = "http://open.tan.fr/ewp/tempsattente.json/"+code_station;
-            asyncStationTanTask.execute(requeteStationBicloo, ligne);
+            String direction = "Gare de Pont-Rousseau";
+            String requeteStationTan = "http://open.tan.fr/ewp/tempsattente.json/";
+            asyncStationTanTask.execute(requeteStationTan, ligne, direction, code_station);
         }
         else {
             //La connexion n'est pas disponible...
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     @Override
     public void processFinishTan(StationTan output) {
         outputTan = output;
+        Log.d("tan", outputTan.toString());
         List<Brique> briques = genererBriques();
         BriqueAdapter adapter = new BriqueAdapter(MainActivity.this, briques);
         mListView.setAdapter(adapter);

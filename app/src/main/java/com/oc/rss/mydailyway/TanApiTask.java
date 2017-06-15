@@ -1,7 +1,9 @@
 package com.oc.rss.mydailyway;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,7 +39,7 @@ public class TanApiTask extends AsyncTask<String, Void, StationTan>{
         HttpURLConnection connexion;
         try {
             //
-            URL url = new URL(params[0]);
+            URL url = new URL(params[0]+params[3]);
             //Ouverture de la connexion
             connexion = (HttpURLConnection)url.openConnection();
             //reception de la réponse et traitement
@@ -53,27 +55,68 @@ public class TanApiTask extends AsyncTask<String, Void, StationTan>{
             //Ferme la connexion
             connexion.disconnect();
 
-            //Parse le String en JSON
-            JSONObject resultatJson = new JSONObject(resultat);
-
-
-
-            //TODO faire correspondre les info du flux au variable de l'objet
-            String tempsAttente;
-            String direction;
-            String code;
-            String Nom;
-            String arretDestination;
-            String ligne;
-
-
-            /*String  nameStation = resultatJson.getString("name");
-            String  availableBikeStandsStation = resultatJson.getString("available_bike_stands");
-            int availableBikeStandsStationInt = Integer.parseInt(availableBikeStandsStation);
-            String  availableBikesStation = resultatJson.getString("available_bikes");
-            int availableBikesStationInt = Integer.parseInt(availableBikesStation);*/
 
             tuileTan = new StationTan();
+            JSONArray resultatJsonArray = new JSONArray(resultat);
+            Log.d("json","json tan");
+            for (int i = 0 ; i < resultatJsonArray.length() ; i++){
+                JSONObject obj = resultatJsonArray.getJSONObject(i);
+                String ligne = obj.getJSONObject("ligne").getString("numLigne");
+                Log.d("ligne",ligne);
+                Log.d("param",params[1]);
+                if(ligne.equals(params[1])){
+                    String direction = obj.getString("terminus");
+                    if(direction.equals(params[2])) {
+                        //String code;
+                        String Nom = "COMM";
+                        //String arretDestination;
+                        String tempsAttente = obj.getString("temps");
+
+                        tuileTan.setDirection(direction);
+                        tuileTan.setLigne(ligne);
+                        tuileTan.setTempsAttente(tempsAttente);
+                        break;
+                    }
+                }
+            }
+
+            //-----------------------------------
+
+            //
+            url = new URL("http://open.tan.fr/ewp/arrets.json");
+            //Ouverture de la connexion
+            connexion = (HttpURLConnection)url.openConnection();
+            //reception de la réponse et traitement
+            is = connexion.getInputStream();
+            reader = new InputStreamReader(is);
+            //transformer le flux binaire en caractères
+
+            final StringBuilder readStr2 = new StringBuilder();
+            while( (inChar = reader.read()) != -1 ) {
+                readStr2.append((char) inChar);
+            }
+            String resultat2 = readStr2.toString();
+            //Ferme la connexion
+            connexion.disconnect();
+
+
+
+            JSONArray resultatJsonArray2 = new JSONArray(resultat2);
+
+            for (int i = 0 ; i < resultatJsonArray2.length() ; i++){
+                JSONObject obj = resultatJsonArray2.getJSONObject(i);
+                String station = obj.getString("codeLieu");
+                if(station.equals(params[3])){
+                    String nom = obj.getString("libelle");
+                        tuileTan.setNom(nom);
+                        break;
+                }
+            }
+
+
+
+
+
 
         } catch (MalformedURLException e) {
             e.printStackTrace();

@@ -4,7 +4,7 @@ package com.oc.rss.mydailyway;
  * Description :
  * Version : 1.0
  * Fait par : Pierre Lopez
- * Fait le : 14/06/2017
+ * Fait le : 04/05/2017
  */
 
 public class StationTan extends Tuile {
@@ -17,22 +17,7 @@ public class StationTan extends Tuile {
     private String arretDestination;
     private String ligne;
 
-    @Override
-    public String toString() {
-        return "StationTan{" +
-                "id=" + id +
-                ", etat=" + etat +
-                ", tempsAttente='" + tempsAttente + '\'' +
-                ", direction=" + direction +
-                ", code='" + code + '\'' +
-                ", Nom='" + Nom + '\'' +
-                ", arretDestination='" + arretDestination + '\'' +
-                ", ligne='" + ligne + '\'' +
-                '}';
-    }
-
     public StationTan() {
-
     }
 
     public StationTan(String code) {

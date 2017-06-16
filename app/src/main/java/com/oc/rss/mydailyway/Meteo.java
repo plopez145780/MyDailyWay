@@ -1,5 +1,7 @@
 package com.oc.rss.mydailyway;
 
+import android.util.Log;
+
 /**
  * Description :
  * Version : 1.0

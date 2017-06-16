@@ -55,8 +55,6 @@ public class ApiResultTask extends AsyncTask<String, Void, Meteo>{
             //Ferme la connexion
             connexion.disconnect();
 
-            Log.d("TRUC", "truc");
-
             //Parse le String en JSON
             JSONObject resultatJson = new JSONObject(resultat);
             //Récupère le code icon du temp

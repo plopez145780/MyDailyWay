@@ -13,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,36 +22,51 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
+
 public class MainActivity extends AppCompatActivity implements AsyncResponse {
-// Début d'ajout
+
     ApiResultTask asyncTask = new ApiResultTask();
     BiclooApiTask asyncStationBiclooTask = new BiclooApiTask();
     TanApiTask asyncStationTanTask = new TanApiTask();
     Meteo outputMeteo = new Meteo(1,1,1,"etat");
     StationVelo outputVelo = new StationVelo("etat", 1, 1);
     StationTan outputTan = new StationTan();
-// Fin d'ajout
 
-    private ListView mListView;
     private ListView mListMeteo;
+    private ListView mListTan;
+    private ListView mListView;
+    private int image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mListView = (ListView) findViewById(R.id.listView);
         mListMeteo = (ListView) findViewById(R.id.listMeteo);
+        mListTan = (ListView) findViewById(R.id.listTan);
+        mListView = (ListView) findViewById(R.id.listView);
+
+        Button btn_refresh=(Button)findViewById(R.id.refresh);
+        btn_refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recreate();
+            }
+        });
 
         List<BriqueMeteo> briquesMeteo = genererBriquesMeteo();
         BriqueMeteoAdapter adapterMeteo = new BriqueMeteoAdapter(MainActivity.this, briquesMeteo);
         mListMeteo.setAdapter(adapterMeteo);
+
+        List<BriqueTan> briquesTan = genererBriquesTan();
+        BriqueTanAdapter adapterTan = new BriqueTanAdapter(MainActivity.this, briquesTan);
+        mListTan.setAdapter(adapterTan);
 
         List<Brique> briques = genererBriques();
         BriqueAdapter adapter = new BriqueAdapter(MainActivity.this, briques);
         mListView.setAdapter(adapter);
     }
 
-    //  Début d'insertion
     @Override
     protected void onStart() {
         super.onStart();
@@ -81,17 +98,18 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
             String direction = "Gare de Pont-Rousseau";
             String requeteStationTan = "http://open.tan.fr/ewp/tempsattente.json/";
             asyncStationTanTask.execute(requeteStationTan, ligne, direction, code_station);
+
         }
         else {
             //La connexion n'est pas disponible...
-            Toast.makeText(MainActivity.this, "La connexion internet n'est pas disponible...", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "La connexion internet n'est pas disponible...",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void processFinish(Meteo output) {
         outputMeteo = output;
-        //Log.d("meteo",outputMeteo.toString());
         List<BriqueMeteo> briquesMeteo = genererBriquesMeteo();
         BriqueMeteoAdapter adapterMeteo = new BriqueMeteoAdapter(MainActivity.this, briquesMeteo);
         mListMeteo.setAdapter(adapterMeteo);
@@ -100,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     @Override
     public void processFinishBicloo(StationVelo output) {
 
-       //Log.d("STATION BICLOO",output.toString());
         outputVelo = output;
         List<Brique> briques = genererBriques();
         BriqueAdapter adapter = new BriqueAdapter(MainActivity.this, briques);
@@ -110,27 +127,35 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse {
     @Override
     public void processFinishTan(StationTan output) {
         outputTan = output;
-        Log.d("tan", outputTan.toString());
-        List<Brique> briques = genererBriques();
-        BriqueAdapter adapter = new BriqueAdapter(MainActivity.this, briques);
-        mListView.setAdapter(adapter);
+        List<BriqueTan> briquesTan = genererBriquesTan();
+        BriqueTanAdapter adapter = new BriqueTanAdapter(MainActivity.this, briquesTan);
+        mListTan.setAdapter(adapter);
     }
-// Fin d'insertion
 
     private List<BriqueMeteo> genererBriquesMeteo(){
 
         List<BriqueMeteo> briquesMeteo = new ArrayList<BriqueMeteo>();
-        briquesMeteo.add(new BriqueMeteo(BriqueMeteoAdapter.tab_image2[1], outputMeteo.getTemperatureRessentie()+"°C", BriqueMeteoAdapter.tab_image2[2], outputMeteo.getVitesseVent()+" Km/h"));
+        briquesMeteo.add(new BriqueMeteo(R.drawable.neige,
+                outputMeteo.getTemperatureRessentie() + "°C",
+                R.drawable.iconevent, outputMeteo.getVitesseVent() + " Km/h", outputMeteo.getEtat()));
+
         return briquesMeteo;
+    }
+
+    private List<BriqueTan> genererBriquesTan(){
+
+        List<BriqueTan> briquesTan = new ArrayList<BriqueTan>();
+        briquesTan.add(new BriqueTan(R.drawable.icone_tram, outputTan.getTempsAttente(),
+                R.drawable.t_2, outputTan.getNom(), outputTan.getLigne()));
+
+        return briquesTan;
     }
 
     private List<Brique> genererBriques(){
 
         List<Brique> briques = new ArrayList<Brique>();
-        //briques.add(new Brique(BriqueAdapter.tab_image[2], outputMeteo.getTemperatureRessentie()+"", outputMeteo.getVitesseVent()+""));
-        briques.add(new Brique(BriqueAdapter.tab_image[0], outputTan.getNom(), outputTan.getLigne(), outputTan.getTempsAttente()));
-        briques.add(new Brique(BriqueAdapter.tab_image[2], outputVelo.getVeloDisponible()+" vélos", " ", outputVelo.getNom()));
-        briques.add(new Brique(BriqueAdapter.tab_image[1], outputVelo.getPlaceRestante()+" places", " ", outputVelo.getNom()));
+        briques.add(new Brique(R.drawable.icone_velo, outputVelo.getVeloDisponible()+" vélos", " ", outputVelo.getNom()));
+        briques.add(new Brique(R.drawable.icone_place, outputVelo.getPlaceRestante()+" places", " ", outputVelo.getNom()));
         return briques;
     }
 }

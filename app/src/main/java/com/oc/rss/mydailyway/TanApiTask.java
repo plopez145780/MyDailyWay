@@ -15,13 +15,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Description : Gestion des requetes vers les API de façon asynchrone
- * Version : 1.0
- * Fait par : Pierre Lopez
- * Fait le : 14/06/2017
+ * Created by benet on 15/06/2017.
  */
 
-public class TanApiTask extends AsyncTask<String, Void, StationTan>{
+public class TanApiTask extends AsyncTask<String, Void, StationTan> {
 
     public AsyncResponse delegate = null;
 
@@ -108,15 +105,10 @@ public class TanApiTask extends AsyncTask<String, Void, StationTan>{
                 String station = obj.getString("codeLieu");
                 if(station.equals(params[3])){
                     String nom = obj.getString("libelle");
-                        tuileTan.setNom(nom);
-                        break;
+                    tuileTan.setNom(nom);
+                    break;
                 }
             }
-
-
-
-
-
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -137,3 +129,4 @@ public class TanApiTask extends AsyncTask<String, Void, StationTan>{
     }
 
 }
+

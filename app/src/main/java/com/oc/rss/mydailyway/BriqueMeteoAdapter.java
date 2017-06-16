@@ -16,10 +16,8 @@ import java.util.List;
  */
 
 public class BriqueMeteoAdapter extends ArrayAdapter<BriqueMeteo> {
-    public static Integer[] tab_image2 = {
-            R.drawable.pluie,
-            R.drawable.soleil,
-            R.drawable.iconevent };
+
+    public String etat;
 
     //tweets est la liste des models à afficher
     public BriqueMeteoAdapter(Context context, List<BriqueMeteo> briquesMeteo) { super(context, 0, briquesMeteo); }
@@ -44,13 +42,41 @@ public class BriqueMeteoAdapter extends ArrayAdapter<BriqueMeteo> {
         //getItem(position) va récupérer l'item [position] de la List<Brique> briques
         BriqueMeteo briqueMeteo = getItem(position);
 
-        /*if (position == 0)
-            viewHolder.temps.setImageResource(tab_image[1]);
-        else
-            viewHolder.temps.setImageResource(tab_image[position]);*/
-        Log.d("brique meteo", briqueMeteo.toString());
 
-        viewHolder.temps.setImageResource(briqueMeteo.getTemps());
+        switch (briqueMeteo.getEtat()) {
+            case "01d":
+                viewHolder.temps.setImageResource(R.drawable.soleil);
+                break;
+            case "02d":
+                viewHolder.temps.setImageResource(R.drawable.couvert);
+                break;
+            case "03d":
+                viewHolder.temps.setImageResource(R.drawable.tres_couvert);
+                break;
+            case "04d":
+                viewHolder.temps.setImageResource(R.drawable.nuageux);
+                break;
+            case "09d":
+                viewHolder.temps.setImageResource(R.drawable.pluie);
+                break;
+            case "10d":
+                viewHolder.temps.setImageResource(R.drawable.variable);
+                break;
+            case "11d":
+                viewHolder.temps.setImageResource(R.drawable.orage);
+                break;
+            case "13d":
+                viewHolder.temps.setImageResource(R.drawable.neige);
+                break;
+            case "50d":
+                viewHolder.temps.setImageResource(R.drawable.brouillard);
+                break;
+
+            default:
+                viewHolder.temps.setImageResource(R.drawable.variable);
+                break;
+        }
+
         viewHolder.temperature.setText(briqueMeteo.getTemperature()+"");
         viewHolder.vent.setImageResource(briqueMeteo.getVent());
         viewHolder.vitesse.setText(briqueMeteo.getVitesse()+"");
@@ -65,4 +91,3 @@ public class BriqueMeteoAdapter extends ArrayAdapter<BriqueMeteo> {
         public TextView vitesse;
     }
 }
-

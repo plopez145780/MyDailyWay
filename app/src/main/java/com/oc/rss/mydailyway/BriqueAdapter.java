@@ -15,11 +15,6 @@ import java.util.List;
  */
 public class BriqueAdapter extends ArrayAdapter<Brique> {
 
-    public static Integer[] tab_image = {
-            R.drawable.icone_tram,
-            R.drawable.icone_place,
-            R.drawable.icone_velo};
-
     //tweets est la liste des models à afficher
     public BriqueAdapter(Context context, List<Brique> briques) { super(context, 0, briques); }
 

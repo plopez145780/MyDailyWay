@@ -3,10 +3,7 @@ package com.oc.rss.mydailyway;
 import android.util.Log;
 
 /**
- * Description :
- * Version : 1.0
- * Fait par : Pierre Lopez
- * Fait le : 04/05/2017
+*
  */
 
 public class StationVelo extends Tuile {

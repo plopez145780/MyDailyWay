@@ -8,41 +8,40 @@
     android:background="@drawable/linearborder" >
 
     <ImageView
-        android:id="@+id/avatar"
+        android:id="@+id/tram"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"/>
 
     <TextView
-        android:id="@+id/pseudo"
+        android:id="@+id/timing"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/avatar"
+        android:layout_toRightOf="@+id/tram"
         android:textStyle="bold"
         android:layout_centerVertical="true"
         android:gravity="center"
-        android:text="Pseudo" />
+        android:text="Timing" />
 
-    <TextView android:id="@+id/numLigne"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/pseudo"
-        android:textStyle="bold"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:text="Numério de ligne" />
+    <ImageView
+        android:id="@+id/numLigne"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toRightOf="@+id/timing"
+        android:layout_alignTop="@+id/timing"/>
 
-    <TextView android:id="@+id/text"
+    <TextView android:id="@+id/name"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/numLigne"
+        android:layout_alignTop="@+id/numLigne"
         android:textStyle="bold"
         android:layout_centerVertical="true"
         android:gravity="center"

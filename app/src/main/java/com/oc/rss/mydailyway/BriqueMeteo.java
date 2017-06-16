@@ -11,12 +11,14 @@ public class BriqueMeteo {
     private String temperature;
     private int vent;
     private String vitesse;
+    private String etat;
 
-    public BriqueMeteo(int temps, String temperature, int vent, String vitesse) {
+    public BriqueMeteo(int temps, String temperature, int vent, String vitesse, String etat) {
         this.temps = temps;
         this.temperature = temperature;
         this.vent = vent;
         this.vitesse = vitesse;
+        this.etat = etat;
     }
 
 
@@ -33,5 +35,10 @@ public class BriqueMeteo {
 
     public String getVitesse() {
         return vitesse;
+    }
+
+    public String getEtat() {
+        if (this.etat == null) return "";
+        return etat;
     }
 }
